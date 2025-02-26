@@ -118,7 +118,7 @@ public class RaceServiceImpl implements RaceService {
                 .toArray(String[]::new);
     }
 
-    //TODO: Da inserire in tutte le classi che nei salvataggi venga inserito tutto in capitalize e che i nomi siano Unique
+    //TODO:  i nomi siano Unique
 
     //TODO: sistemare anche le exception custom per ogni classe, tipo talent, spell ecc
 }
