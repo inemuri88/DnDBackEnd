@@ -3,6 +3,8 @@ package it.dnd.game_elements_service.service;
 
 import it.dnd.game_elements_service.dto.RaceDTO;
 import it.dnd.game_elements_service.dto.request.SaveRaceDTO;
+import it.dnd.game_elements_service.exception.CharacterClassException;
+import it.dnd.game_elements_service.exception.DuplicateResourceException;
 import it.dnd.game_elements_service.exception.RaceException;
 import it.dnd.game_elements_service.mapper.RaceMapper;
 import it.dnd.game_elements_service.model.CharacterClass;
@@ -18,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.beans.PropertyDescriptor;
@@ -54,6 +58,18 @@ public class RaceServiceImpl implements RaceService {
     @Transactional
     public SaveRaceDTO saveRace(SaveRaceDTO raceDto) throws RaceException {
         Race race = raceMapper.toModel(raceDto);
+
+        try {
+
+            return saveSingleRace(race);
+        } catch (DataIntegrityViolationException e) {
+            throw new RaceException("Errore di integrità del database: possibile violazione di un vincolo.", e);
+        } catch (DataAccessException e) {
+            throw new RaceException("Errore di accesso al database.", e);
+        }
+    }
+
+    private SaveRaceDTO saveSingleRace(Race race){
         Race savedRace = raceRepository.save(race);
         return raceMapper.toSaveDTO(savedRace);
     }
