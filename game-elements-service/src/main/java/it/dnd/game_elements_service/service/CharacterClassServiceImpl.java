@@ -3,7 +3,6 @@ package it.dnd.game_elements_service.service;
 import it.dnd.game_elements_service.dto.request.SaveCharacterClassDTO;
 
 import it.dnd.game_elements_service.exception.CharacterClassException;
-import it.dnd.game_elements_service.exception.TalentException;
 import it.dnd.game_elements_service.mapper.CharacterClassMapper;
 import it.dnd.game_elements_service.model.CharacterClass;
 import it.dnd.game_elements_service.repository.CharacterClassRepository;
